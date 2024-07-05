@@ -2,25 +2,37 @@ package com.Nimap.MachineTest_TejasDube.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 @Entity
 public class Category {
+
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
-
+	
+	
+	@Column(name="name")
 	private String name;
-
-	@OneToMany(mappedBy = "category")
+	 /*
+	
+	@OneToMany(targetEntity = Product.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinColumn(name = "CategoryProduct_fk",referencedColumnName = "categoryId")
+	@JsonBackReference*/
+	
+	@OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+	@JsonManagedReference("categoryReference")
 	private List<Product> products;
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(Long id2) {
+		this.id = id2;
 	}
 
 	public String getName() {
@@ -38,5 +50,7 @@ public class Category {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
+
+	
 
 }
